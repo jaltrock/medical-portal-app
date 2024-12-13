@@ -1,0 +1,20 @@
+.searchdoctor-container {
+    max-width: 70vw;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;   
+}
+
+.searchdoctor-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+
+/* If the screen width is larger than 800px, set the width to 500px */
+@media screen and (min-width: 800px) {
+    .searchdoctor-container {
+        width: 500px;
+    }
+}
