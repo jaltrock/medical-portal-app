@@ -1,5 +1,5 @@
-import Home from './pages/Home/Home';
-import CustomForm from './components/CustomForm/CustomForm';
+//import Home from './pages/Home/Home';
+import RegisterPatient from './pages/RegisterPatient/RegisterPatient';
 import './App.css';
 
 function App() {
@@ -7,13 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <Home />
-      <CustomForm>
-        <CustomForm.Email 
-          value={"jessi@gmail.com"} 
-          onChange={() => console.log("hello")}
-        />
-      </CustomForm>
+      <RegisterPatient />
     </div>
   );
 }
