@@ -1,5 +1,5 @@
 //import Home from './pages/Home/Home';
-import SearchDoctor from './pages/SearchDoctor/SearchDoctor';
+import About from './pages/About/About';
 import './App.css';
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
 
   return (
     <div className="App">
-      <SearchDoctor /> 
+      <About /> 
     </div>
   );
 }
