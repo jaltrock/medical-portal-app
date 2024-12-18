@@ -10,6 +10,7 @@ import RegisterDoctor from "./pages/RegisterDoctor/RegisterDoctor";
 import SearchDoctor from "./pages/SearchDoctor/SearchDoctor";
 import Layout from "./Layout";
 import './index.css';
+import AdminPanel from './pages/AdminPanel/AdminPanel.jsx';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "/searchdoctor",
         element: <SearchDoctor />
+      },
+      {
+        path: "/adminpanel",
+        element: <AdminPanel />
       },
     ],
   },
