@@ -27,7 +27,7 @@ app.use((req, res, next) => {
     return returnStatus(res, 404, true, "Not found");
 });
 
-const port = process.env.PORT || 5000;
+const port = 5000 || process.env.PORT;
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

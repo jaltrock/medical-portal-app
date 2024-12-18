@@ -7,7 +7,7 @@ import { makePOSTrequest } from "../../utils/api";
 const Signin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    //const [message, setMessage] = useState("");
+    const [message, setMessage] = useState("");
     
 
     const submitData = async (e) => {
@@ -21,7 +21,7 @@ const Signin = () => {
             if (res.status === 200) {
                 localStorage.setItem("token", res.token);
             }
-            //setMessage(res.message);
+            setMessage(res.message);
     };
 
     return (
@@ -40,6 +40,7 @@ const Signin = () => {
 
             <Button onClick={submitData} value="Sign In" />
         </CustomForm>
+        {message}
         </div>
     );
 };
