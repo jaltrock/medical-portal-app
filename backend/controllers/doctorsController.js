@@ -124,6 +124,35 @@ const doctorsController = {
       }
     }
   },
+
+  searchDoctor: async (req, res) => {
+    try {
+      const db = await getDatabase();
+
+      const doctor = await db.collection("doctors").findOne(
+        {
+          idnumber: req.query.idnumber,
+        },
+        { projection: { _id: 0, password: 0 } }
+      );
+
+      if (doctor) {
+        const doctorJson = JSON.stringify(doctor);
+        return returnStatus(res, 200, false, "Doctor found", {
+          doctor: doctorJson,
+        });
+      } else {
+        return returnStatus(res, 404, true, "Doctor not found");
+      }
+    } catch (error) {
+      console.log(error);
+      return returnStatus(res, 500, true, "Internal server error");
+    } finally {
+      if (client) {
+        await client.close();
+      }
+    }
+  },
 };
 
 module.exports = doctorsController;
