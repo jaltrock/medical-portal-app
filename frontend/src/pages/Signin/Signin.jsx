@@ -3,46 +3,56 @@ import CustomForm from "../../components/CustomForm/CustomForm";
 import Button from "../../components/Button/Button";
 import "./Signin.css";
 import { makePOSTrequest } from "../../utils/api";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
-    
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-    const submitData = async (e) => {
-        e.preventDefault();
-        const res = await makePOSTrequest("http://localhost:5000/users/signin", 
-            {
-                email: email,
-                password: password,
-            });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-            if (res.status === 200) {
-                localStorage.setItem("token", res.token);
-            }
-            setMessage(res.message);
-    };
+  const submitData = async (e) => {
+    e.preventDefault();
+    const res = await makePOSTrequest("http://localhost:5000/users/signin", {
+      email: email,
+      password: password,
+    });
 
-    return (
-        <div className="signin-container">
-        <h2>Sign In</h2>
-        <CustomForm>
-            <CustomForm.Email 
-                value={email} 
-                onChange={(e)=>setEmail(e.target.value)}
-            />
+    if (res.status === 200) {
+      localStorage.setItem("token", res.token);
 
-            <CustomForm.Password 
-                value={password} 
-                onChange={(e)=>setPassword(e.target.value)}
-            />
+      dispatch(login({ username: res.username }));
 
-            <Button onClick={submitData} value="Sign In" />
-        </CustomForm>
-        {message}
-        </div>
-    );
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+    setMessage(res.message);
+  };
+
+  return (
+    <div className="signin-container">
+      <h2>Sign In</h2>
+      <CustomForm>
+        <CustomForm.Email
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <CustomForm.Password
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <Button onClick={submitData} value="Sign In" />
+      </CustomForm>
+      {message}
+    </div>
+  );
 };
 
 export default Signin;

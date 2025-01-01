@@ -1,16 +1,18 @@
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 import Error from "./components/Error/Error";
 import About from "./pages/About/About";
-import SearchPatient from './pages/SearchPatient/SearchPatient';
+import SearchPatient from "./pages/SearchPatient/SearchPatient";
 import Signin from "./pages/Signin/Signin";
 import RegisterPatient from "./pages/RegisterPatient/RegisterPatient";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterDoctor from "./pages/RegisterDoctor/RegisterDoctor";
 import SearchDoctor from "./pages/SearchDoctor/SearchDoctor";
 import Layout from "./Layout";
-import './index.css';
-import AdminPanel from './pages/AdminPanel/AdminPanel.jsx';
+import "./index.css";
+import AdminPanel from "./pages/AdminPanel/AdminPanel.jsx";
 
 const router = createBrowserRouter([
   {
@@ -23,38 +25,40 @@ const router = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About />
+        element: <About />,
       },
       {
         path: "/searchpatient",
-        element: <SearchPatient />
+        element: <SearchPatient />,
       },
       {
         path: "/signin",
-        element: <Signin />
+        element: <Signin />,
       },
       {
         path: "/registerpatient",
-        element: <RegisterPatient />
+        element: <RegisterPatient />,
       },
       {
         path: "/registerdoctor",
-        element: <RegisterDoctor />
+        element: <RegisterDoctor />,
       },
       {
         path: "/searchdoctor",
-        element: <SearchDoctor />
+        element: <SearchDoctor />,
       },
       {
         path: "/adminpanel",
-        element: <AdminPanel />
+        element: <AdminPanel />,
       },
     ],
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
- // <React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  // <React.StrictMode>
+  <Provider store={store}>
     <RouterProvider router={router} />
- // </React.StrictMode>,
+  </Provider>
+  // </React.StrictMode>,
 );
