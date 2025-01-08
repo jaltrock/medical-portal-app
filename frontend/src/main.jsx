@@ -5,6 +5,7 @@ import { store } from "./redux/store";
 import Error from "./components/Error/Error";
 import About from "./pages/About/About";
 import SearchPatient from "./pages/SearchPatient/SearchPatient";
+import Profile from "./components/Profile/Profile"
 import Signin from "./pages/Signin/Signin";
 import RegisterPatient from "./pages/RegisterPatient/RegisterPatient";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/searchpatient",
         element: <SearchPatient />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
       {
         path: "/signin",
