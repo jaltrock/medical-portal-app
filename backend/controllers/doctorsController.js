@@ -153,6 +153,64 @@ const doctorsController = {
       }
     }
   },
+  updateContact: async (req, res) => {
+    try {
+      const { phone, email, idnumber } = req.body;
+
+      const db = await getDatabase();
+      const admin = await db.collection("admin").findOne({
+        email: req.decodedtoken.email,
+      });
+
+      if (admin) {
+        const doctorExists = await db.collection("doctors").findOne({
+          $or: [{ email: req.body.email }, { phone: req.body.phone }],
+        });
+
+        const patientExists = await db.collection("patients").findOne({
+          $or: [{ email: req.body.email }, { phone: req.body.phone }],
+        });
+
+        if (doctorExists || patientExists) {
+          return returnStatus(res, 404, true, "This email cannot be used");
+        }
+
+        const doctor = await db.collection("doctors").findOneAndUpdate(
+          {
+            idnumber: idnumber,
+          },
+          {
+            $set: {
+              phone: phone,
+              email: email,
+            },
+          },
+          {
+            returnDocument: "after",
+            projection: { _id: 0, password: 0 },
+          }
+        );
+
+        if (!doctor) {
+          return returnStatus(res, 404, true, "Doctor was not found");
+        }
+
+        const doctorJson = JSON.stringify(doctor);
+
+        return returnStatus(res, 201, false, "Doctor updated", {
+          doctor: doctorJson,
+        });
+      }
+
+      return returnStatus(res, 401, true, "Unauthorized");
+    } catch (error) {
+      return returnStatus(res, 500, true, "Internal server error");
+    } finally {
+      if (client) {
+        await client.close();
+      }
+    }
+  },
 };
 
 module.exports = doctorsController;

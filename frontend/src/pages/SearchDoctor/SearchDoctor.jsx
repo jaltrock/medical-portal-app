@@ -1,13 +1,20 @@
 import { useState } from "react";
 import Button from "../../components/Button/Button";
-import { makeGETrequest } from "../../utils/api";
+import { makeGETrequest, makePOSTrequest } from "../../utils/api";
 import CustomForm from "../../components/CustomForm/CustomForm";
+import { useSelector } from "react-redux";
 import "./SearchDoctor.css";
 
 const SearchDoctor = () => {
   const [idnumber, setIdNumber] = useState("");
   const [messageDoc, setMessageDoc] = useState("");
   const [doctor, setDoctor] = useState({});
+  const [updatedEmail, setUpdatedEmail] = useState("");
+  const [updatedPhone, setUpdatedPhone] = useState("");
+  const [showUpdatedContactFields, setShowUpdatedContactFields] =
+    useState(false);
+
+  const userSelector = useSelector((state) => state.user);
 
   async function submitSearch(e) {
     e.preventDefault();
@@ -21,6 +28,26 @@ const SearchDoctor = () => {
     } else {
       setDoctor({});
     }
+  }
+
+  async function updateContact(e) {
+    e.preventDefault();
+    const res = await makePOSTrequest(
+      "http://localhost/5000/doctors/updatecontact",
+      {
+        idnumber: doctor.idnumber,
+        email: updatedEmail,
+        phone: updatedPhone,
+      },
+      localStorage.getItem("token")
+    );
+
+    if (res.status === 201) {
+      setShowUpdatedContactFields(!showUpdatedContactFields);
+      setDoctor(JSON.parse(res.doctor));
+    }
+
+    setMessageDoc(res.message);
   }
 
   return (
@@ -51,9 +78,33 @@ const SearchDoctor = () => {
             <span style={{ fontWeight: "bold" }}>Email:</span>
             {doctor.email}
           </p>
+
+          {userSelector.admin && (
+            <Button
+              value="Update doctor contact information"
+              onClick={() =>
+                setShowUpdatedContactFields(!showUpdatedContactFields)
+              }
+            />
+          )}
+          <br />
+          {showUpdatedContactFields && (
+            <CustomForm>
+              <CustomForm.Email
+                value={updatedEmail}
+                onChange={(e) => setUpdatedEmail(e.target.value)}
+              />
+
+              <CustomForm.Phone
+                value={updatedPhone}
+                onChange={(e) => setUpdatedPhone(e.target.value)}
+              />
+
+              <Button value="Update" onClick={updateContact} />
+            </CustomForm>
+          )}
         </div>
       )}
-
       {messageDoc}
     </div>
   );

@@ -71,6 +71,15 @@ router.post(
 
 router.get("/search", doctorsController.searchDoctor);
 
+router.post(
+  "/updatecontact",
+  verifyToken,
+  checkIDNumber,
+  checkEmail,
+  checkPhoneNumber,
+  doctorsController.updateContact
+);
+
 // Error handling middleware, for this to work make sure to do something like this: return next(new Error()); from other middlewares when error occurs, for example in  checkIDNumber,checkPhoneNumber ... if phonenumber is wrong or username then if we do return next(new Error()); from those middlewares,we can catch the error from below and why do we even do this? There are situations when modules such as formidable saves image to the folder we want and what if we want to get rid of that image later on if something goes wrong? well this is why we create a centralized error-handling middleware below
 router.use((err, req, res, next) => {
   if (req.uploadedImageFilePath) {
