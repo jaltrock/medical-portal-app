@@ -150,6 +150,26 @@ function checkPhoneNumber(req, res, next) {
   next();
 }
 
+function checkMedicalRecord(req, res, next) {
+  const { medicalrecord } = req.body;
+
+  if (medicalrecord.length > 450) {
+    returnStatus(res, 400, true, "Medical record too long");
+    return next(new Error("Medical record too long"));
+  }
+
+  const medicalRecordRegex = /^(?:[^<>|]*)$/;
+
+  const result = medicalRecordRegex.text(medicalrecord);
+
+  if (!result) {
+    returnStatus(res, 400, true, "Medical record is invalid");
+    return next(new Error("Medical record is invalid"));
+  }
+
+  next();
+}
+
 module.exports = {
   checkIDNumber: checkIDNumber,
   checkUserName: checkUserName,
@@ -157,4 +177,5 @@ module.exports = {
   checkEmail: checkEmail,
   checkAddress: checkAddress,
   checkPhoneNumber: checkPhoneNumber,
+  checkMedicalRecord: checkMedicalRecord,
 };
