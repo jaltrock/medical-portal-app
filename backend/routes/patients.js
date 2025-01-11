@@ -21,7 +21,26 @@ router.post(
   checkAddress,
   checkPhoneNumber,
   checkMedicalRecord,
-  patientsController.registerPatient,
+  patientsController.registerPatient
+);
+
+router.get("/search", patientsController.searchPatient);
+
+router.post(
+  "/addnewmedicalrecord",
+  verifyToken,
+  checkIDNumber,
+  checkMedicalRecord,
+  patientsController.addNewMedicalRecord
+);
+
+router.post(
+  "/updatecontact",
+  verifyToken,
+  checkIDNumber,
+  checkEmail,
+  checkPhoneNumber,
+  patientsController.updateContact
 );
 
 router.use((err, req, res, next) => {
